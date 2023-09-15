@@ -1,4 +1,5 @@
 // import { sendEmail } from "../mailer/mailer"
+import { sendEmail } from "../mailer/mailer"
 import Usuario, { IUser } from "../models/user"
 
 
@@ -8,7 +9,7 @@ export const existeEmail = async (email: string): Promise<void> => {
         throw new Error(`El correo ${email} ya está registrado`)
     }
     if (existeEmail && !existeEmail.verified) {
-        // await sendEmail(email, existeEmail.code as string)
+        await sendEmail(email, existeEmail.code as string)
         throw new Error(`El usuario ya está registrado. Se envió nuevamente un código de verificación a ${email}`)
     }
 }

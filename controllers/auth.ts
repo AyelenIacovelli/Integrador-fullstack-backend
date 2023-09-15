@@ -3,6 +3,7 @@ import Usuario, { IUser } from "../models/user"
 import bcryptjs from "bcryptjs"
 import { ROLES } from "../helpers/constants"
 import randomstring from "randomstring"
+import { sendEmail } from "../mailer/mailer"
 
 export const register = async (req: Request, res: Response) => { //el usuario me tiene que mandar data
     // DATA(TIPADA) QUE ME ENVIA EL USUARIO
@@ -23,7 +24,8 @@ export const register = async (req: Request, res: Response) => { //el usuario me
     usuario.code = newCode
     // GUARDO EL USUARIO
     await usuario.save()
-    // await sendEmail(email, newCode)
+    // MANDO MAIL CON CODIGO PARA VERIFICARSE
+    await sendEmail(email, newCode)
     // CREADO CON EXITO
     res.status(201).json({
         usuario
