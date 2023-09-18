@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { register } from "../controllers/auth";
+import { login, register } from "../controllers/auth";
 import { check } from "express-validator";
 import { recolectarErrores } from "../middlewares/recolectarErrores";
 import { existeEmail } from "../helpers/validationsDB";
@@ -17,5 +17,15 @@ router.post("/register",
         recolectarErrores
     ],
     register)
+
+router.post("/login",
+    [
+        check("email", "El mail es obligatorio").isEmail(),
+        check("password", "El password debe tener 6 mínimo caracteres").isLength({
+            min: 6
+        }),
+        recolectarErrores
+    ],
+    login)
 
 export default router

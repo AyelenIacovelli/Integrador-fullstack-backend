@@ -1,4 +1,3 @@
-// import { sendEmail } from "../mailer/mailer"
 import { sendEmail } from "../mailer/mailer"
 import Usuario, { IUser } from "../models/user"
 

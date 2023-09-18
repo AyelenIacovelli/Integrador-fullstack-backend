@@ -4,6 +4,7 @@ import bcryptjs from "bcryptjs"
 import { ROLES } from "../helpers/constants"
 import randomstring from "randomstring"
 import { sendEmail } from "../mailer/mailer"
+import { generarJWT } from "../helpers/generarJWT"
 
 export const register = async (req: Request, res: Response) => { //el usuario me tiene que mandar data
     // DATA(TIPADA) QUE ME ENVIA EL USUARIO
@@ -30,4 +31,43 @@ export const register = async (req: Request, res: Response) => { //el usuario me
     res.status(201).json({
         usuario
     })
+}
+
+export const login = async (req: Request, res: Response): Promise<void> => {
+    // DATA(TIPADA) QUE ME ENVIA EL USUARIO
+    const { email, password }: IUser = req.body
+    try {
+        //ME INTENTO TRAER EL USUARIO DE LA BASE DE DATOS
+        const usuario = await Usuario.findOne({ email })
+        //SI NO EXISTE EL USUARIO MANDO MSJ NOT FOUND:
+        if (!usuario) {
+            res.status(404).json({
+                msg: "No se encontró el mail en la base de datos"
+            })
+            return
+        }
+        //SI EL USUARIO EXISTE, VALIDO LA CONTRASEÑA
+        //(Comparo el pass del usuario con el hash de mi base de datos)
+        const validarPassword = bcryptjs.compareSync(password, usuario.password)
+        //SI ES INCORRECTA, MNDO MSJ NO AUTORIZADO
+        if (!validarPassword) {
+            res.status(401).json({
+                msg: "La contraseña es incorrecta"
+            })
+            return
+        }
+        //SI ESTA TODO OK, SE PUEDE LOGEAR EL USUARIO
+        const token = await generarJWT(usuario.id)// Le armo un token al usuario
+        //Le mando un msj de Aceptado
+        res.status(202).json({
+            usuario, //para que el front use la data en redux
+            token //lo tiene que guardar porque se lo voy a pedir mas adelante(por ejemplo en órdenes)
+        })
+    } catch (error) {
+        console.log(error);
+        //Le mando un mensaje de error genérico no previsto
+        res.status(500).json({
+            msg: "Error en el servidor"
+        })
+    }
 }
