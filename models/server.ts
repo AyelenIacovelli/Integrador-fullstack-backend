@@ -31,7 +31,7 @@ export class Server {
     // MIDDLEWARES
     middlewares(): void {
         this.app.use(express.json())
-        this.app.use(cors()) //me asegura que nadie que yo no quiera se conecte a mi api ni que manden metodos http que no quiera
+        this.app.use(cors({origin:"https://integrador-fullstack-frontend.vercel.app", methods:"GET,HEAD,PUT,PATCH,POST,DELETE"})) //me asegura que nadie que yo no quiera se conecte a mi api ni que manden metodos http que no quiera
     }
 
     // RUTAS
