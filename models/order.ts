@@ -1,7 +1,7 @@
 import { Model, Schema, Types, model } from "mongoose"
 
 interface IItem {
-    desc: String
+    desc?: String
     id: Number
     price: Number
     quantity: Number
@@ -50,7 +50,7 @@ const OrderSchema = new Schema<IOrder>({
         type: [{
             desc: {
                 type: String,
-                required: true,
+                // required: true,
             },
             id: {
                 type: Number,
