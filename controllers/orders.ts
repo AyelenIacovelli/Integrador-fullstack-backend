@@ -16,6 +16,8 @@ export const getOrders = async (req: Request, res: Response) => {
 }
 
 export const createOrder = async (req: Request, res: Response) => {
+    console.log(req.body);
+    
     const usuarioId: ObjectId = req.body.usuarioConfirmado._id
     const orderData: IOrder = req.body
     //creo el objeto que le voy a mandar a la base de datos:
@@ -27,6 +29,8 @@ export const createOrder = async (req: Request, res: Response) => {
     }
     // CREO LA NUEVA ORDEN
     const order = new Order(data)
+    console.log(order);
+    
     //guardo en base de datos
     await order.save()
     res.status(201).json({
