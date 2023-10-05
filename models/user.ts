@@ -8,6 +8,10 @@ export interface IUser {
     rol?: string //opcional
     code?: string //opcional
     verified?: string //opcional
+    cart: {
+        product: string; // aquí almacenaremos el ID del producto
+        quantity: number;
+    }[];
 }
 
 const UserSchema = new Schema<IUser>({
@@ -33,7 +37,19 @@ const UserSchema = new Schema<IUser>({
     verified: {
         type: Boolean,
         default: false
-    }
+    },
+    cart: [
+        {
+            product: {
+                type: Schema.Types.ObjectId,
+                ref: 'Product'
+            },
+            quantity: {
+                type: Number,
+                default: 1
+            }
+        }
+    ]
 })
 
 UserSchema.methods.toJSON = function () { //paso la data que traigo de la DB a json
