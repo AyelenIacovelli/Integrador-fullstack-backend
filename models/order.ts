@@ -1,11 +1,12 @@
 import { Model, Schema, Types, model } from "mongoose"
 
 interface IItem {
-    desc?: String
-    id: Number
-    price: Number
-    quantity: Number
-    title: String
+    desc?: String;
+    id: Number;
+    price?: Number; // Hacer price opcional
+    pricesale?: Number; // Agregar pricesale como opcional
+    quantity: Number;
+    title: String;
 }
 
 interface IShippingDetails {
@@ -58,7 +59,10 @@ const OrderSchema = new Schema<IOrder>({
             },
             price: {
                 type: Number,
-                required: true,
+                // required: true,
+            },
+            pricesale: {
+                type: Number,
             },
             quantity: {
                 type: Number,
