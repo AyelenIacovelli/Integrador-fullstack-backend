@@ -15,8 +15,8 @@ export const sendEmail = async (to: string, code: string): Promise<void> => {
         to,
         subject: 'Código de verificación para Grevery Store',
         text: `
-            Llegó tu código para Grevery.
-            El código es ${code}
+            Llegó tu código para validar tu cuenta en Grevery Store.
+            El código de verficación es ${code}
         `
     }
     try {
